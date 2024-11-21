@@ -96,6 +96,7 @@ Participants will create an S3-based solution to store, organize, manage, and ar
     ![preview](images/task30.png)
     ![preview](images/task31.png)
     ![preview](images/task32.png)
+    ![preview](images/task85.png)
     
 7. **Implement Cross-Region Replication (Optional)**
     - Set up **Cross-Region Replication (CRR)** to duplicate data from your primary bucket to a secondary bucket in another AWS region.
