@@ -14,7 +14,8 @@ Resources:
   PublicSubnet:
     Type: AWS::EC2::Subnet
     Properties:
-        VpcId: !Ref MyVPC
+        VpcId: 
+            Ref: MyVPC
         AvailabilityZone: ap-south-1a
         CidrBlock: 10.0.0.0/24
         Tags: 
@@ -23,12 +24,13 @@ Resources:
   PrivateSubnet:
     Type: AWS::EC2::Subnet
     Properties:
-        VpcId: !Ref MyVPC
+        VpcId: 
+            Ref: MyVPC
         AvailabilityZone: ap-south-1b
         CidrBlock: 10.0.1.0/24
         Tags: 
             - Key: Name
-              Value: Pri_Subnet
+              Value: Pvt_Subnet
   myInternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
@@ -42,4 +44,19 @@ Resources:
             Ref: MyVPC
         InternetGatewayId:
             Ref: myInternetGateway
-
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+        Tags: 
+            - Key: Name
+              Value: Pub_RT
+        VpcId: 
+            Ref: MyVPC
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+        Tags: 
+            - Key: Name
+              Value: Pvt_RT
+        VpcId: 
+            Ref: MyVPC
