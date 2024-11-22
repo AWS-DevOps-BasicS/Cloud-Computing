@@ -107,3 +107,40 @@ Resources:
       Tags:
         - Key: Name
           Value: CF_SG
+  MyKeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+        KeyFormat: pem
+        KeyName: CF_KeyPair
+        KeyType: rsa
+        Tags: 
+            - Key: Name
+              Value: CF_Key
+  AppEc2Instance: 
+    Type: AWS::EC2::Instance
+    Properties: 
+        InstanceType: t2.micro
+        ImageId: ami-0aebec83a182ea7ea 
+        KeyName: 
+          Ref: MyKeyPair
+        Tags:
+          - Key: Name
+            Value: App_EC2
+        SecurityGroupIds: 
+          - Ref: secGroupName
+        SubnetId: 
+          Ref: PublicSubnet
+  PvtEc2Instance: 
+    Type: AWS::EC2::Instance
+    Properties: 
+        InstanceType: t2.micro
+        ImageId: ami-0aebec83a182ea7ea
+        KeyName: 
+          Ref: MyKeyPair
+        Tags:
+          - Key: Name
+            Value: Pvt_Instance
+        SecurityGroupIds: 
+          - Ref: secGroupName
+        SubnetId: 
+          Ref: PrivateSubnet
