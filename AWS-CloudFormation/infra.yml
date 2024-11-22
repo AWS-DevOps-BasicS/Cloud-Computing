@@ -60,3 +60,17 @@ Resources:
               Value: Pvt_RT
         VpcId: 
             Ref: MyVPC
+  PubSubnetRTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+        RouteTableId: 
+            Ref: PublicRouteTable
+        SubnetId: 
+            Ref: PublicSubnet
+  PvtSubnetRTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+        RouteTableId: 
+            Ref: PrivateRouteTable
+        SubnetId: 
+            Ref: PrivateSubnet
