@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Creating Infrastructure for application
+Description: Creating Infrastructure for an application with reusable parameters.
+
 Parameters:
   AMIId:
     Type: AWS::EC2::Image::Id
@@ -39,7 +40,7 @@ Parameters:
     Description: CIDR block for the private subnet.
 
   KeyPairName:
-    Type: String
+    Type: AWS::EC2::KeyPair::KeyName
     Description: Name of an existing KeyPair to enable SSH access to the instance.
 
   InstanceType:
@@ -54,6 +55,10 @@ Parameters:
   Environment:
     Type: String
     Default: Dev
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
     Description: Environment tag for resources.
 
 Resources:
@@ -142,7 +147,6 @@ Resources:
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: SSH_HTTP_SG
       GroupDescription: Allows SSH and HTTP
       VpcId: !Ref MyVPC
       SecurityGroupIngress:
@@ -164,6 +168,7 @@ Resources:
           Value: CF_SG
 
   AppEc2Instance:
+    DependsOn: SecurityGroup
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceType
@@ -171,9 +176,10 @@ Resources:
       KeyName: !Ref KeyPairName
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          SubnetId: !Ref PublicSubnet
           GroupSet:
             - !Ref SecurityGroup
-          SubnetId: !Ref PublicSubnet
       Tags:
         - Key: Name
           Value: App_EC2
@@ -181,6 +187,7 @@ Resources:
           Value: !Ref Environment
 
   PvtEc2Instance:
+    DependsOn: SecurityGroup
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceType
@@ -188,9 +195,10 @@ Resources:
       KeyName: !Ref KeyPairName
       NetworkInterfaces:
         - AssociatePublicIpAddress: false
+          DeviceIndex: 0
+          SubnetId: !Ref PrivateSubnet
           GroupSet:
             - !Ref SecurityGroup
-          SubnetId: !Ref PrivateSubnet
       Tags:
         - Key: Name
           Value: Pvt_EC2
