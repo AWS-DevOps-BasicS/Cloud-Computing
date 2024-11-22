@@ -83,3 +83,27 @@ Resources:
         DestinationCidrBlock: 0.0.0.0/0
         GatewayId:
             Ref: myInternetGateway
+  secGroupName:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: SSH&HTTP
+      GroupDescription: allows ssh and http
+      VpcId:
+            Ref: MyVPC      
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0 
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0         
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0 
+      Tags:
+        - Key: Name
+          Value: CF_SG
