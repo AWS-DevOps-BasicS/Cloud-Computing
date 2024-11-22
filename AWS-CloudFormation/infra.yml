@@ -11,4 +11,23 @@ Resources:
         Tags: 
             - Key: Name
               Value: CF_VPC
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+        VpcId: !Ref MyVPC
+        AvailabilityZone: ap-south-1a
+        CidrBlock: 10.0.0.0/24
+        Tags: 
+            - Key: Name
+              Value: Pub_Subnet
+  PrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+        VpcId: !Ref MyVPC
+        AvailabilityZone: ap-south-1b
+        CidrBlock: 10.0.1.0/24
+        Tags: 
+            - Key: Name
+              Value: Pri_Subnet
+  
 
