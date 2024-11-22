@@ -29,5 +29,17 @@ Resources:
         Tags: 
             - Key: Name
               Value: Pri_Subnet
-  
+  myInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: Name
+        Value: CF_IGW
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+        VpcId:
+            Ref: MyVPC
+        InternetGatewayId:
+            Ref: myInternetGateway
 
