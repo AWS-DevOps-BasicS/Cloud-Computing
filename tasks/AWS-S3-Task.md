@@ -92,16 +92,133 @@ Participants will create an S3-based solution to store, organize, manage, and ar
     - Configure the bucket to send **event notifications** on specific events, such as s3:ObjectCreated:\* or s3:ObjectRemoved:\*.
     - Route notifications to an Amazon SNS topic or email to simulate automation for file management.
     - Upload and delete files in the bucket, observing notifications for each action.
-    
-    ![preview](images/task30.png)
-    ![preview](images/task31.png)
-    ![preview](images/task32.png)
-    ![preview](images/task85.png)
-    
+    - Create a SNS topic and add subcription to that topic.
+  
+  ![preview](images/task86.png)
+
+    - After creating the SNS topic edit the Access policy like below.
+  
+  ![preview](images/task87.png)
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "sns:Publish",
+      "Resource": "arn:aws:sns:ap-south-1:211125375984:s3_objects",
+      "Condition": {
+        "ArnLike": {
+          "aws:SourceArn": "arn:aws:s3:::multimedia-storage-tejaswinibokka-bucket"
+        }
+      }
+    }
+  ]
+} 
+```
+
+  - Before setting for event notification we have to set bucket policy for SNS to access.
+  
+![preview](images/task85.png)
+![preview](images/task88.png)
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "sns.amazonaws.com"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::multimedia-storage-tejaswinibokka-bucket/*"
+        }
+    ]
+}
+```
+  ![preview](images/task30.png)
+  ![preview](images/task31.png)
+  ![preview](images/task32.png)
+  ![preview](images/task89.png)
+
+  - After creating the event now check the email you will get the test mail. 
+  - Upload an object to the bucket and check the mail for notification.
+  
+  ![preview](images/task90.png)
+
 7. **Implement Cross-Region Replication (Optional)**
     - Set up **Cross-Region Replication (CRR)** to duplicate data from your primary bucket to a secondary bucket in another AWS region.
     - Make sure versioning is enabled on both buckets and create IAM policies that permit replication.
     - Test the replication by uploading files to the primary bucket and verifying their presence in the secondary bucket.
+  
+  ![preview](images/storage71.png)
+  ![preview](images/storage72.png)
+  ![preview](images/storage73.png)
+  ![preview](images/storage74.png)
+  ![preview](images/storage75.png)
+  ![preview](images/storage76.png)
+  ![preview](images/storage77.png)
+  ![preview](images/storage78.png)
+  ![preview](images/storage79.png)
+  ![preview](images/storage80.png)
+  ![preview](images/storage81.png)
+  
+
+* This is the policy inline provided by AWS.
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:InitiateReplication"
+            ],
+            "Resource": "arn:aws:s3:::tteokbokki-us-east-1/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{{ManifestDestination}}/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::tteokbokki-us-west-2/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetReplicationConfiguration",
+                "s3:PutInventoryConfiguration"
+            ],
+            "Resource": "arn:aws:s3:::tteokbokki-us-east-1"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::{{ManifestDestination}}/*"
+        }
+    ]
+}
+```
+![preview](images/storage82.png)
+![preview](images/storage83.png)
 
 ### Why Use a Bucket Policy When IAM Policies Already Grant Access?
 * Use **IAM policies** for granting permissions to specific users, groups, or roles within your AWS account.
