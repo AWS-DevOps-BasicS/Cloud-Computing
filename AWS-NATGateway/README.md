@@ -29,6 +29,8 @@
 
 * Next create the NAT gateway.
 * We create NAT in public subnet which have internet access, After that NAT is attached to private route table.
+  
+  ![preview](images/nat9.png)
 
 ![preview](images/nat5.png)
 ![preview](images/nat6.png)
