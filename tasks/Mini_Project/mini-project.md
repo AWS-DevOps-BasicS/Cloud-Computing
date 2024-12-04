@@ -35,11 +35,11 @@
 
 ### Process
 **1. VPC and Subnet Setup**
-    * Created a VPC with CIDR range 192.168.0.0/16.
+  * Created a VPC with CIDR range 192.168.0.0/16.
 
-    * Added an Internet Gateway and set up necessary routing components.
+  * Added an Internet Gateway and set up necessary routing components.
 
-    * Configured one public subnet and three private subnets based on the requirements.
+  * Configured one public subnet and three private subnets based on the requirements.
   
   ![preview](images/mini1.png)
 
@@ -60,7 +60,7 @@ To access private EC2 instances from the public EC2 instance:
 ```shell
 scp -i <path/of/publicserver_pemkey> <path/of/privateserver_pemkey> ec2-user@<public_server_ip>:~
 ```
-2. Log in to the public EC2 instance:
+1. Log in to the public EC2 instance:
 ```bash
 ssh -i <pem_key> ec2-user@<public_ip>
 chmod 400 ./<private_pem_key> 
@@ -75,8 +75,8 @@ git clone https://github.com/AWS-DevOps-BasicS/Job_Application.git
 cd job_application
 pip install -r requirements.txt
 ```
-  3. Follow the repository instructions to configure the application to use RDS.
-  4. Verify the application:
+  1. Follow the repository instructions to configure the application to use RDS.
+  2. Verify the application:
    
 ```bash
 curl localhost:5000
