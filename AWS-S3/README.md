@@ -319,6 +319,7 @@ https://tteokbokki-in.s3.us-east-1.amazonaws.com/3042473-uhd_3840_2160_30fps.mp4
    * Abort Multipart Uploads: Abort uploads that have been incomplete for a specified period.
   
   ![preview](images/storage86.png)
+  ![preview](images/storage89.png)
   ![preview](images/storage87.png)
   
 * Review and Save: Review your settings and save the lifecycle rule.
